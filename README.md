@@ -1,0 +1,2 @@
+# Estadistica-Multidimensional
+Repositorio proyecto estadistica multimensional
