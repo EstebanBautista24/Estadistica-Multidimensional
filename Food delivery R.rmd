@@ -11,6 +11,9 @@ output:
     number_sections: true
     code_folding: show
     theme: cosmo
+editor_options: 
+  markdown: 
+    wrap: 72
 ---
 
 ```{r setup, include=FALSE}
@@ -19,77 +22,138 @@ library(knitr)
 library(dplyr)
 ```
 
-
+#Objetivo del dataset
+Identificar qué variables influyen en el tiempo de entrega y construir un modelo que permita explicar y predecir ese tiempo, comparando el aporte de cada variable
 # Tabla de variables
 
-Esta tabla contiene el diccionario de datos  y
-mirando los valores únicos de cada columna con `unique()` o `table()`.
-`Tipo en R` es lo que R detecta automáticamente; `Tipo conceptual` es la
-decisión humana, y puede diferir de lo que R dice.
+Esta tabla contiene el diccionario de datos y mirando los valores únicos
+de cada columna con `unique()` o `table()`. `Tipo en R` es lo que R
+detecta automáticamente; `Tipo conceptual` es la decisión humana, y
+puede diferir de lo que R dice.
 
 ```{r tabla-variables}
 variables <- data.frame(
-  Variable       = c("Order_ID", "Order_Dater", "Order_Hour", "Day_of_Week",""),
-  Significado    = c("Edad del repartidor/cliente", "Clima", "Nivel de tráfico", "Tiempo de entrega"),
-  Tipo_conceptual = c("Cuantitativa", "Cualitativa", "Cualitativa ordinal", "Cuantitativa"),
-  Tipo_en_R      = c("Numérica", "Categórica (chr/factor)", "Categórica (chr/factor)", "Numérica"),
-  Rango_niveles  = c("Ej. 18–60", "Rainy, Sunny, ...", "Low, Medium, High", "Ej. 10–100"),
+  Variable       = c("Order_ID", "Order_Date", "Order_Hour", "Day_of_Week","Is_Weekend","Is_Festival","Weather","Pickup_Zone","Dropoff_Zone","Vehicle_Type","Rider_Experience_Years","Rider_Rating","Restaurant_Rating","Cuisine_Type","Order_Items","Restaurant_Load","Preparation_Time_Min","Road_Distance_km","Delivery_Distance_Category","Traffic_Level","Number_of_Signals","Average_Speed_kmph","Delivery_Priority","Time_taken_min"),
+  Significado    = c("Identificador único del pedido", "Fecha del pedido", "Hora del pedido", "Día de la semana","Si el pedido fue en fin de semana","Si el pedido fue en día festivo","Clima al momento del pedido","Zona de recogida","Zona de entrega","Tipo de vehículo del repartidor","Años de experiencia del repartidor","Calificación del repartidor","Calificación del restaurante","Tipo de cocina del pedido","Cantidad de ítems del pedido","	Carga/ocupación del restaurante","Minutos de preparación","Distancia recorrida en km","Categoría de la distancia","Nivel de tráfico","Semáforos en la ruta","Velocidad promedio","Prioridad del pedido","Tiempo total de entrega"),
+  Tipo_conceptual = c("Texto", "Fecha", "Numérica", "Categórica nominal","Categórica binaria","Categórica binaria","Categórica nominal","Categórica nominal","Categórica nominal","Categórica nominal","Numérica","Numérica","Numérica","Categórica nominal","Numérica","Categórica ordinal","Numérica","Numérica","Categórica ordinal","Categórica ordinal","Numérica","Numérica","Categórica ordinal","Numérica"),
+  Rango_niveles  = c("ORD000001-ORD50000", "
+2025-01-01-2025-12-31", "0-23", "Monday…Sunday","0-1","0-1","Clear,Rain,Cloudy,Fog,Storm","Residential,CBD,Commercial,Industrial,Suburban","Residential,CBD,Commercial,Industrial,Suburban","Bike,Scooter,Electric Scooter,Bicycle","0.1-15","0-5","0-5","North Indian, Biryani,Pizza,Chinese,Burger","1-7","Low,Medium,High","5-51","0.08-70.8","Long,Medium,Short","Low,Moderate,High,Severe","2-18","8-48.3","Normal,Priority,Vip","10-180"),
   stringsAsFactors = FALSE
 )
 
 kable(variables, col.names = c("Variable", "Significado", "Tipo conceptual",
-                                "¿Numérica o categórica?", "Rango/niveles esperados"))
-```
-
-> Reemplaza las filas de ejemplo con **todas** las columnas reales del CSV
-> (`names(delivery)` te da la lista completa para no dejar ninguna por fuera).
-
-```{r nombres-columnas}
-names(delivery)
+                                "Rango/niveles esperados"))
 ```
 
 # Variables numéricas
 
-Columnas que R lee como número **y** que son cuantitativas de verdad
-(tienen una unidad y tiene sentido promediarlas, restarlas, etc.).
+Se consideran numéricas las variables que representan una cantidad
+medible y para las que tiene sentido calcular promedios, sumas o
+diferencias. Se extraen directamente de la columna 
 
 ```{r vars-numericas}
-sapply(delivery, is.numeric)
+subset(variables, Tipo_conceptual == "Numérica")$Variable
 ```
 
-Ejemplos esperados: `Age`, `Delivery_Time`, `Distance`, `Vehicle_Age`.
+Estas corresponden a magnitudes reales: tiempos (`Preparation_Time_Min`,
+`Time_taken_min`), distancias (`Road_Distance_km`), calificaciones
+(`Rider_Rating`, `Restaurant_Rating`), experiencia (`Rider_Experience_Years`)
+y conteos (`Order_Items`, `Number_of_Signals`, `Order_Hour`,
+`Average_Speed_kmph`).
 
-# Variables categóricas (ojo con los "números disfrazados")
+# Variables categóricas nominales
 
-Aquí va el punto clave del ejercicio: que una columna sea numérica **en R**
-no significa que sea cuantitativa **en concepto**. Un caso típico es una
-variable codificada como entero, por ejemplo:
+Las variables nominales representan categorías que no poseen un orden
+natural entre sus niveles.
+
+```{r vars-categoricas-nominales}
+
+variables %>%
+  filter(Tipo_conceptual == "Categórica nominal") %>%
+  select(Variable)
 
 ```
-Weather:
-1 = Sunny
-2 = Rainy
-3 = Snowy
+
+#Variables categóricas ordinales
+Las variables ordinales tienen categorías que presentan un orden
+natural.
+```{r vars-categoricas-ordinales}
+
+
+variables %>%
+  filter(Tipo_conceptual == "Categórica ordinal") %>%
+  select(Variable)
+
+
+```
+#Variables categóricas binarias
+
+Las variables binarias solamente presentan dos estados posibles.
+```{r vars-categoricas-binarias}
+
+variables %>%
+  filter(Tipo_conceptual == "Categórica binaria") %>%
+  select(Variable)
+
+
 ```
 
-Aunque `is.numeric(Weather)` devuelva `TRUE`, promediar esos códigos no
-significa nada (¿qué es "1.7" de clima?). Por eso se revisa cada variable
-numérica y se decide si en realidad es una categórica codificada:
+#Variable temporal
+```{r vars-categoricas-temporal}
 
-```{r vars-categoricas-disfrazadas}
-# Ejemplo de chequeo manual: ¿cuántos valores únicos tiene una columna
-# que R marcó como numérica? Pocos valores únicos y repetidos = sospecha
-# de que es categórica codificada, no cuantitativa real.
-sapply(delivery, function(x) length(unique(x)))
+variables %>%
+  filter(Tipo_conceptual == "Fecha") %>%
+  select(Variable)
+
+
+
+```
+La variable temporal identificada es:
+
+Order_Date
+
+Esta representa la fecha en que se realizó el pedido y no debe
+considerarse una variable numérica convencional.
+
+# Identificador
+
+```{r vars-texto}
+
+variables %>%
+  filter(Tipo_conceptual == "Texto") %>%
+  select(Variable)
+
+
+
+```
+Order_ID es un identificador único para cada pedido. Aunque contiene
+información en formato de texto, no representa una característica del
+pedido que deba utilizarse directamente como variable analítica.
+# Conclusión de las variables
+
+```{r conclusion}
+table(variables$Tipo_conceptual)
 ```
 
-Variables categóricas verdaderas (texto o codificadas) del dataset:
-`Weather`, `Traffic_Level`, `Time_of_Day`, `Vehicle_Type`, etc.
-(ajusta según los nombres reales de tu CSV).
+# Total de variables revisadas
+- Total de variables revisadas: `r nrow(variables)`
 
-# Conclusión de la Persona 1
+# Variables numéricas
+- Variables numéricas: `r sum(variables$Tipo_conceptual == "Numérica")`
 
-- Total de variables: `r ncol(delivery)`
-- Numéricas (cuantitativas reales): completar según el análisis anterior.
-- Categóricas (incluyendo numéricas disfrazadas): completar según el análisis anterior.
-- Ninguna variable quedó sin clasificar en la tabla de la sección 3.
+# Variables categóricas
+- Variables categóricas nominales: `r sum(variables$Tipo_conceptual == "Categórica nominal")`
+- Variables categóricas ordinales: `r sum(variables$Tipo_conceptual == "Categórica ordinal")`
+- Variables categóricas binarias: `r sum(variables$Tipo_conceptual == "Categórica binaria")`
+- Total de variables categóricas: `r sum(variables$Tipo_conceptual %in% c("Categórica nominal", "Categórica ordinal", "Categórica binaria"))`
+
+# Variables especiales
+- Variables temporales: `r sum(variables$Tipo_conceptual == "Fecha")`
+- Identificadores: `r sum(variables$Tipo_conceptual == "Texto")`
+
+
+
+# Casos especiales
+- `Order_ID` es un identificador único y no una variable analítica.
+- `Order_Date` es una variable temporal y no debe tratarse como una variable numérica convencional.
+- `Is_Weekend` e `Is_Festival` son variables categóricas binarias, aunque sus valores sean `0` y `1`.
