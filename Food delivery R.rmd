@@ -22,8 +22,9 @@ library(knitr)
 library(dplyr)
 ```
 
-#Objetivo del dataset
+# Objetivo del dataset
 Identificar qué variables influyen en el tiempo de entrega y construir un modelo que permita explicar y predecir ese tiempo, comparando el aporte de cada variable
+
 # Tabla de variables
 
 Esta tabla contiene el diccionario de datos y mirando los valores únicos
@@ -74,7 +75,7 @@ variables %>%
 
 ```
 
-#Variables categóricas ordinales
+# Variables categóricas ordinales
 Las variables ordinales tienen categorías que presentan un orden
 natural.
 ```{r vars-categoricas-ordinales}
@@ -86,7 +87,8 @@ variables %>%
 
 
 ```
-#Variables categóricas binarias
+
+# Variables categóricas binarias
 
 Las variables binarias solamente presentan dos estados posibles.
 ```{r vars-categoricas-binarias}
@@ -98,7 +100,7 @@ variables %>%
 
 ```
 
-#Variable temporal
+# Variable temporal
 ```{r vars-categoricas-temporal}
 
 variables %>%
@@ -129,6 +131,7 @@ variables %>%
 Order_ID es un identificador único para cada pedido. Aunque contiene
 información en formato de texto, no representa una característica del
 pedido que deba utilizarse directamente como variable analítica.
+
 # Conclusión de las variables
 
 ```{r conclusion}
@@ -151,9 +154,97 @@ table(variables$Tipo_conceptual)
 - Variables temporales: `r sum(variables$Tipo_conceptual == "Fecha")`
 - Identificadores: `r sum(variables$Tipo_conceptual == "Texto")`
 
-
-
 # Casos especiales
 - `Order_ID` es un identificador único y no una variable analítica.
 - `Order_Date` es una variable temporal y no debe tratarse como una variable numérica convencional.
 - `Is_Weekend` e `Is_Festival` son variables categóricas binarias, aunque sus valores sean `0` y `1`.
+
+# Persona 2 — Importar correctamente a R
+
+Antes de importar se revisó el archivo `.csv` en crudo: usa coma (`,`)
+como separador de columnas, punto (`.`) como separador decimal, sí
+tiene fila de encabezados y no presenta problemas de codificación
+(texto ASCII sin caracteres especiales). Por lo tanto es un CSV
+estándar y basta con `read.csv()`.
+
+```{r importar-datos}
+food_delivery <- read.csv(
+  "Datos/Food_Delivery_Time_Prediction.csv",
+  header = TRUE,
+  sep = ",",
+  dec = "."
+)
+```
+
+# Dimensiones del dataset
+
+```{r dim-datos}
+dim(food_delivery)
+```
+
+El dataset tiene 50,000 filas y 24 columnas.
+
+# Estructura de las variables
+
+```{r str-datos}
+str(food_delivery)
+```
+
+Las variables numéricas quedaron correctamente como `int` o `num`.
+Las variables categóricas (`Traffic_Level`, `Weather`, `Vehicle_Type`,
+`Cuisine_Type`, `Restaurant_Load`, `Delivery_Priority`,
+`Delivery_Distance_Category`, `Day_of_Week`, `Pickup_Zone`,
+`Dropoff_Zone`) quedaron como `chr`; no está mal, pero se convierten a
+`factor` más abajo para el análisis posterior.
+
+# Resumen estadístico
+
+```{r summary-datos}
+summary(food_delivery)
+```
+
+No se encontraron valores fuera de rango (por ejemplo, no hay edades
+negativas ni valores absurdos), no hay `NA` ni filas duplicadas.
+
+# Primeras filas del dataset
+
+```{r head-datos}
+head(food_delivery)
+```
+
+Los nombres de columna y los valores están correctamente alineados;
+no hay evidencia de que el separador esté mal configurado ni de que
+el CSV se haya cargado como una sola columna.
+
+# Conversión de variables categóricas a factor
+
+En R, `factor()` marca una columna como categórica en lugar de texto
+libre y define qué categorías (niveles) existen. Esto importa porque
+muchas funciones de modelado (regresión, ANOVA, análisis
+multidimensional) y de graficación (`boxplot()`, `ggplot()`) tratan
+distinto una variable `factor` que una `chr`, y porque permite fijar
+un orden lógico entre categorías cuando este existe (por ejemplo,
+`Traffic_Level`: Low < Moderate < High < Severe), algo que un `chr`
+no permite. Por eso las variables categóricas identificadas como
+`chr` en `str()` se convierten aquí a `factor`.
+
+```{r convertir-factores}
+food_delivery$Traffic_Level <- factor(food_delivery$Traffic_Level)
+food_delivery$Restaurant_Load <- factor(food_delivery$Restaurant_Load)
+food_delivery$Delivery_Priority <- factor(food_delivery$Delivery_Priority)
+food_delivery$Delivery_Distance_Category <- factor(food_delivery$Delivery_Distance_Category)
+food_delivery$Day_of_Week <- factor(food_delivery$Day_of_Week)
+food_delivery$Weather <- factor(food_delivery$Weather)
+food_delivery$Cuisine_Type <- factor(food_delivery$Cuisine_Type)
+food_delivery$Vehicle_Type <- factor(food_delivery$Vehicle_Type)
+food_delivery$Pickup_Zone <- factor(food_delivery$Pickup_Zone)
+food_delivery$Dropoff_Zone <- factor(food_delivery$Dropoff_Zone)
+
+str(food_delivery)
+```
+
+Nota: `Order_Date` sigue como `chr` en esta fase. Si más adelante se
+necesita trabajar con fechas (extraer mes o día), se puede convertir
+con `as.Date(food_delivery$Order_Date)`, pero eso corresponde a una
+etapa posterior de limpieza/transformación, no a esta fase de
+importación.
