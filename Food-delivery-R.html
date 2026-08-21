@@ -1594,9 +1594,15 @@ Jefferson Ortiz</h4>
 </div>
 
 
-<p>#Objetivo del dataset Identificar qué variables influyen en el tiempo
-de entrega y construir un modelo que permita explicar y predecir ese
-tiempo, comparando el aporte de cada variable # Tabla de variables</p>
+<div id="objetivo-del-dataset" class="section level1" number="1">
+<h1><span class="header-section-number">1</span> Objetivo del
+dataset</h1>
+<p>Identificar qué variables influyen en el tiempo de entrega y
+construir un modelo que permita explicar y predecir ese tiempo,
+comparando el aporte de cada variable</p>
+</div>
+<div id="tabla-de-variables" class="section level1" number="2">
+<h1><span class="header-section-number">2</span> Tabla de variables</h1>
 <p>Esta tabla contiene el diccionario de datos y mirando los valores
 únicos de cada columna con <code>unique()</code> o <code>table()</code>.
 <code>Tipo en R</code> es lo que R detecta automáticamente;
@@ -1775,8 +1781,9 @@ kable(variables, col.names = c(&quot;Variable&quot;, &quot;Significado&quot;, &q
 </tr>
 </tbody>
 </table>
-<div id="variables-numéricas" class="section level1" number="1">
-<h1><span class="header-section-number">1</span> Variables
+</div>
+<div id="variables-numéricas" class="section level1" number="3">
+<h1><span class="header-section-number">3</span> Variables
 numéricas</h1>
 <p>Se consideran numéricas las variables que representan una cantidad
 medible y para las que tiene sentido calcular promedios, sumas o
@@ -1794,8 +1801,8 @@ distancias (<code>Road_Distance_km</code>), calificaciones
 (<code>Order_Items</code>, <code>Number_of_Signals</code>,
 <code>Order_Hour</code>, <code>Average_Speed_kmph</code>).</p>
 </div>
-<div id="variables-categóricas-nominales" class="section level1" number="2">
-<h1><span class="header-section-number">2</span> Variables categóricas
+<div id="variables-categóricas-nominales" class="section level1" number="4">
+<h1><span class="header-section-number">4</span> Variables categóricas
 nominales</h1>
 <p>Las variables nominales representan categorías que no poseen un orden
 natural entre sus niveles.</p>
@@ -1809,8 +1816,12 @@ natural entre sus niveles.</p>
 ## 4 Dropoff_Zone
 ## 5 Vehicle_Type
 ## 6 Cuisine_Type</code></pre>
-<p>#Variables categóricas ordinales Las variables ordinales tienen
-categorías que presentan un orden natural.</p>
+</div>
+<div id="variables-categóricas-ordinales" class="section level1" number="5">
+<h1><span class="header-section-number">5</span> Variables categóricas
+ordinales</h1>
+<p>Las variables ordinales tienen categorías que presentan un orden
+natural.</p>
 <pre class="r"><code>variables %&gt;%
   filter(Tipo_conceptual == &quot;Categórica ordinal&quot;) %&gt;%
   select(Variable)</code></pre>
@@ -1819,7 +1830,10 @@ categorías que presentan un orden natural.</p>
 ## 2 Delivery_Distance_Category
 ## 3              Traffic_Level
 ## 4          Delivery_Priority</code></pre>
-<p>#Variables categóricas binarias</p>
+</div>
+<div id="variables-categóricas-binarias" class="section level1" number="6">
+<h1><span class="header-section-number">6</span> Variables categóricas
+binarias</h1>
 <p>Las variables binarias solamente presentan dos estados posibles.</p>
 <pre class="r"><code>variables %&gt;%
   filter(Tipo_conceptual == &quot;Categórica binaria&quot;) %&gt;%
@@ -1827,7 +1841,9 @@ categorías que presentan un orden natural.</p>
 <pre><code>##      Variable
 ## 1  Is_Weekend
 ## 2 Is_Festival</code></pre>
-<p>#Variable temporal</p>
+</div>
+<div id="variable-temporal" class="section level1" number="7">
+<h1><span class="header-section-number">7</span> Variable temporal</h1>
 <pre class="r"><code>variables %&gt;%
   filter(Tipo_conceptual == &quot;Fecha&quot;) %&gt;%
   select(Variable)</code></pre>
@@ -1838,8 +1854,8 @@ categorías que presentan un orden natural.</p>
 <p>Esta representa la fecha en que se realizó el pedido y no debe
 considerarse una variable numérica convencional.</p>
 </div>
-<div id="identificador" class="section level1" number="3">
-<h1><span class="header-section-number">3</span> Identificador</h1>
+<div id="identificador" class="section level1" number="8">
+<h1><span class="header-section-number">8</span> Identificador</h1>
 <pre class="r"><code>variables %&gt;%
   filter(Tipo_conceptual == &quot;Texto&quot;) %&gt;%
   select(Variable)</code></pre>
@@ -1847,8 +1863,11 @@ considerarse una variable numérica convencional.</p>
 ## 1 Order_ID</code></pre>
 <p>Order_ID es un identificador único para cada pedido. Aunque contiene
 información en formato de texto, no representa una característica del
-pedido que deba utilizarse directamente como variable analítica. #
-Conclusión de las variables</p>
+pedido que deba utilizarse directamente como variable analítica.</p>
+</div>
+<div id="conclusión-de-las-variables" class="section level1" number="9">
+<h1><span class="header-section-number">9</span> Conclusión de las
+variables</h1>
 <pre class="r"><code>table(variables$Tipo_conceptual)</code></pre>
 <pre><code>## 
 ## Categórica binaria Categórica nominal Categórica ordinal              Fecha 
@@ -1856,22 +1875,22 @@ Conclusión de las variables</p>
 ##           Numérica              Texto 
 ##                 10                  1</code></pre>
 </div>
-<div id="total-de-variables-revisadas" class="section level1" number="4">
-<h1><span class="header-section-number">4</span> Total de variables
+<div id="total-de-variables-revisadas" class="section level1" number="10">
+<h1><span class="header-section-number">10</span> Total de variables
 revisadas</h1>
 <ul>
 <li>Total de variables revisadas: 24</li>
 </ul>
 </div>
-<div id="variables-numéricas-1" class="section level1" number="5">
-<h1><span class="header-section-number">5</span> Variables
+<div id="variables-numéricas-1" class="section level1" number="11">
+<h1><span class="header-section-number">11</span> Variables
 numéricas</h1>
 <ul>
 <li>Variables numéricas: 10</li>
 </ul>
 </div>
-<div id="variables-categóricas" class="section level1" number="6">
-<h1><span class="header-section-number">6</span> Variables
+<div id="variables-categóricas" class="section level1" number="12">
+<h1><span class="header-section-number">12</span> Variables
 categóricas</h1>
 <ul>
 <li>Variables categóricas nominales: 6</li>
@@ -1880,16 +1899,16 @@ categóricas</h1>
 <li>Total de variables categóricas: 12</li>
 </ul>
 </div>
-<div id="variables-especiales" class="section level1" number="7">
-<h1><span class="header-section-number">7</span> Variables
+<div id="variables-especiales" class="section level1" number="13">
+<h1><span class="header-section-number">13</span> Variables
 especiales</h1>
 <ul>
 <li>Variables temporales: 1</li>
 <li>Identificadores: 1</li>
 </ul>
 </div>
-<div id="casos-especiales" class="section level1" number="8">
-<h1><span class="header-section-number">8</span> Casos especiales</h1>
+<div id="casos-especiales" class="section level1" number="14">
+<h1><span class="header-section-number">14</span> Casos especiales</h1>
 <ul>
 <li><code>Order_ID</code> es un identificador único y no una variable
 analítica.</li>
@@ -1899,6 +1918,233 @@ como una variable numérica convencional.</li>
 categóricas binarias, aunque sus valores sean <code>0</code> y
 <code>1</code>.</li>
 </ul>
+</div>
+<div id="persona-2-importar-correctamente-a-r" class="section level1" number="15">
+<h1><span class="header-section-number">15</span> Persona 2 — Importar
+correctamente a R</h1>
+<p>Antes de importar se revisó el archivo <code>.csv</code> en crudo:
+usa coma (<code>,</code>) como separador de columnas, punto
+(<code>.</code>) como separador decimal, sí tiene fila de encabezados y
+no presenta problemas de codificación (texto ASCII sin caracteres
+especiales). Por lo tanto es un CSV estándar y basta con
+<code>read.csv()</code>.</p>
+<pre class="r"><code>food_delivery &lt;- read.csv(
+  &quot;Datos/Food_Delivery_Time_Prediction.csv&quot;,
+  header = TRUE,
+  sep = &quot;,&quot;,
+  dec = &quot;.&quot;
+)</code></pre>
+</div>
+<div id="dimensiones-del-dataset" class="section level1" number="16">
+<h1><span class="header-section-number">16</span> Dimensiones del
+dataset</h1>
+<pre class="r"><code>dim(food_delivery)</code></pre>
+<pre><code>## [1] 50000    24</code></pre>
+<p>El dataset tiene 50,000 filas y 24 columnas.</p>
+</div>
+<div id="estructura-de-las-variables" class="section level1" number="17">
+<h1><span class="header-section-number">17</span> Estructura de las
+variables</h1>
+<pre class="r"><code>str(food_delivery)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    50000 obs. of  24 variables:
+##  $ Order_ID                  : chr  &quot;ORD000001&quot; &quot;ORD000002&quot; &quot;ORD000003&quot; &quot;ORD000004&quot; ...
+##  $ Order_Date                : chr  &quot;2025-10-28&quot; &quot;2025-09-26&quot; &quot;2025-01-26&quot; &quot;2025-11-19&quot; ...
+##  $ Order_Hour                : int  8 12 18 12 18 18 12 22 8 16 ...
+##  $ Day_of_Week               : chr  &quot;Tuesday&quot; &quot;Friday&quot; &quot;Sunday&quot; &quot;Wednesday&quot; ...
+##  $ Is_Weekend                : int  0 0 1 0 0 0 0 0 0 0 ...
+##  $ Is_Festival               : int  0 0 0 0 0 0 0 0 1 0 ...
+##  $ Weather                   : chr  &quot;Clear&quot; &quot;Rain&quot; &quot;Clear&quot; &quot;Cloudy&quot; ...
+##  $ Pickup_Zone               : chr  &quot;CBD&quot; &quot;CBD&quot; &quot;Residential&quot; &quot;Residential&quot; ...
+##  $ Dropoff_Zone              : chr  &quot;Commercial&quot; &quot;CBD&quot; &quot;Residential&quot; &quot;Industrial&quot; ...
+##  $ Vehicle_Type              : chr  &quot;Scooter&quot; &quot;Scooter&quot; &quot;Scooter&quot; &quot;Bike&quot; ...
+##  $ Rider_Experience_Years    : num  3.1 1.8 3.8 1.7 12.4 1.6 2.2 0.7 10.2 9.3 ...
+##  $ Rider_Rating              : num  3.8 3.6 3.9 3.9 4.4 3.5 4 3.7 4.4 4.3 ...
+##  $ Restaurant_Rating         : num  3.8 3.9 4 4.6 4 4.9 4.3 3.6 3.6 3.4 ...
+##  $ Cuisine_Type              : chr  &quot;Pizza&quot; &quot;Desserts&quot; &quot;Biryani&quot; &quot;Burger&quot; ...
+##  $ Order_Items               : int  1 3 1 3 1 1 5 3 3 6 ...
+##  $ Restaurant_Load           : chr  &quot;Medium&quot; &quot;Medium&quot; &quot;Low&quot; &quot;Medium&quot; ...
+##  $ Preparation_Time_Min      : int  23 11 31 19 7 16 13 23 33 18 ...
+##  $ Road_Distance_km          : num  30.55 2.25 10.15 26.33 30.48 ...
+##  $ Delivery_Distance_Category: chr  &quot;Long&quot; &quot;Short&quot; &quot;Long&quot; &quot;Long&quot; ...
+##  $ Traffic_Level             : chr  &quot;Moderate&quot; &quot;Moderate&quot; &quot;Moderate&quot; &quot;Low&quot; ...
+##  $ Number_of_Signals         : int  15 17 8 9 8 16 10 14 17 10 ...
+##  $ Average_Speed_kmph        : num  28.7 23.3 28.9 41.4 31.7 24.2 13.4 29.3 29.2 45.9 ...
+##  $ Delivery_Priority         : chr  &quot;Normal&quot; &quot;Normal&quot; &quot;Normal&quot; &quot;Normal&quot; ...
+##  $ Time_taken_min            : int  91 21 52 59 75 105 180 37 110 69 ...</code></pre>
+<p>Las variables numéricas quedaron correctamente como <code>int</code>
+o <code>num</code>. Las variables categóricas
+(<code>Traffic_Level</code>, <code>Weather</code>,
+<code>Vehicle_Type</code>, <code>Cuisine_Type</code>,
+<code>Restaurant_Load</code>, <code>Delivery_Priority</code>,
+<code>Delivery_Distance_Category</code>, <code>Day_of_Week</code>,
+<code>Pickup_Zone</code>, <code>Dropoff_Zone</code>) quedaron como
+<code>chr</code>; no está mal, pero se convierten a <code>factor</code>
+más abajo para el análisis posterior.</p>
+</div>
+<div id="resumen-estadístico" class="section level1" number="18">
+<h1><span class="header-section-number">18</span> Resumen
+estadístico</h1>
+<pre class="r"><code>summary(food_delivery)</code></pre>
+<pre><code>##       Order_ID         Order_Date      Order_Hour       Day_of_Week   
+##  Length   :50000   Length   :50000   Min.   : 0.00   Length   :50000  
+##  N.unique :50000   N.unique :  365   1st Qu.:10.00   N.unique :    7  
+##  N.blank  :    0   N.blank  :    0   Median :14.00   N.blank  :    0  
+##  Min.nchar:    9   Min.nchar:   10   Mean   :13.85   Min.nchar:    6  
+##  Max.nchar:    9   Max.nchar:   10   3rd Qu.:19.00   Max.nchar:    9  
+##                                      Max.   :23.00                    
+##    Is_Weekend      Is_Festival          Weather         Pickup_Zone   
+##  Min.   :0.0000   Min.   :0.0000   Length   :50000   Length   :50000  
+##  1st Qu.:0.0000   1st Qu.:0.0000   N.unique :    5   N.unique :    5  
+##  Median :0.0000   Median :0.0000   N.blank  :    0   N.blank  :    0  
+##  Mean   :0.2836   Mean   :0.0491   Min.nchar:    3   Min.nchar:    3  
+##  3rd Qu.:1.0000   3rd Qu.:0.0000   Max.nchar:    6   Max.nchar:   11  
+##  Max.   :1.0000   Max.   :1.0000                                      
+##     Dropoff_Zone      Vehicle_Type   Rider_Experience_Years  Rider_Rating  
+##  Length   :50000   Length   :50000   Min.   : 0.10          Min.   :3.200  
+##  N.unique :    5   N.unique :    4   1st Qu.: 2.20          1st Qu.:3.700  
+##  N.blank  :    0   N.blank  :    0   Median : 3.80          Median :3.900  
+##  Min.nchar:    3   Min.nchar:    4   Mean   : 4.44          Mean   :3.952  
+##  Max.nchar:   11   Max.nchar:   16   3rd Qu.: 5.90          3rd Qu.:4.100  
+##                                      Max.   :15.00          Max.   :5.000  
+##  Restaurant_Rating    Cuisine_Type    Order_Items     Restaurant_Load 
+##  Min.   :3.300     Length   :50000   Min.   :1.000   Length   :50000  
+##  1st Qu.:3.900     N.unique :    9   1st Qu.:1.000   N.unique :    3  
+##  Median :4.200     N.blank  :    0   Median :2.000   N.blank  :    0  
+##  Mean   :4.175     Min.nchar:    4   Mean   :2.653   Min.nchar:    3  
+##  3rd Qu.:4.400     Max.nchar:   12   3rd Qu.:4.000   Max.nchar:    6  
+##  Max.   :5.000                       Max.   :7.000                    
+##  Preparation_Time_Min Road_Distance_km Delivery_Distance_Category
+##  Min.   : 5.00        Min.   : 0.08    Length   :50000           
+##  1st Qu.:18.00        1st Qu.:16.33    N.unique :    3           
+##  Median :24.00        Median :25.62    N.blank  :    0           
+##  Mean   :24.03        Mean   :26.20    Min.nchar:    4           
+##  3rd Qu.:30.00        3rd Qu.:35.48    Max.nchar:    6           
+##  Max.   :51.00        Max.   :70.82                              
+##    Traffic_Level   Number_of_Signals Average_Speed_kmph Delivery_Priority
+##  Length   :50000   Min.   : 2.000    Min.   : 8.00      Length   :50000  
+##  N.unique :    4   1st Qu.: 6.000    1st Qu.:25.30      N.unique :    3  
+##  N.blank  :    0   Median : 9.000    Median :33.10      N.blank  :    0  
+##  Min.nchar:    3   Mean   : 9.729    Mean   :31.76      Min.nchar:    3  
+##  Max.nchar:    8   3rd Qu.:14.000    3rd Qu.:39.60      Max.nchar:    8  
+##                    Max.   :18.000    Max.   :48.30                       
+##  Time_taken_min  
+##  Min.   : 10.00  
+##  1st Qu.: 58.00  
+##  Median : 78.00  
+##  Mean   : 83.87  
+##  3rd Qu.:102.00  
+##  Max.   :180.00</code></pre>
+<p>No se encontraron valores fuera de rango (por ejemplo, no hay edades
+negativas ni valores absurdos), no hay <code>NA</code> ni filas
+duplicadas.</p>
+</div>
+<div id="primeras-filas-del-dataset" class="section level1" number="19">
+<h1><span class="header-section-number">19</span> Primeras filas del
+dataset</h1>
+<pre class="r"><code>head(food_delivery)</code></pre>
+<pre><code>##    Order_ID Order_Date Order_Hour Day_of_Week Is_Weekend Is_Festival Weather
+## 1 ORD000001 2025-10-28          8     Tuesday          0           0   Clear
+## 2 ORD000002 2025-09-26         12      Friday          0           0    Rain
+## 3 ORD000003 2025-01-26         18      Sunday          1           0   Clear
+## 4 ORD000004 2025-11-19         12   Wednesday          0           0  Cloudy
+## 5 ORD000005 2025-08-04         18      Monday          0           0    Rain
+## 6 ORD000006 2025-01-22         18   Wednesday          0           0  Cloudy
+##   Pickup_Zone Dropoff_Zone     Vehicle_Type Rider_Experience_Years Rider_Rating
+## 1         CBD   Commercial          Scooter                    3.1          3.8
+## 2         CBD          CBD          Scooter                    1.8          3.6
+## 3 Residential  Residential          Scooter                    3.8          3.9
+## 4 Residential   Industrial             Bike                    1.7          3.9
+## 5  Industrial  Residential             Bike                   12.4          4.4
+## 6         CBD     Suburban Electric Scooter                    1.6          3.5
+##   Restaurant_Rating Cuisine_Type Order_Items Restaurant_Load
+## 1               3.8        Pizza           1          Medium
+## 2               3.9     Desserts           3          Medium
+## 3               4.0      Biryani           1             Low
+## 4               4.6       Burger           3          Medium
+## 5               4.0     Desserts           1          Medium
+## 6               4.9 South Indian           1             Low
+##   Preparation_Time_Min Road_Distance_km Delivery_Distance_Category
+## 1                   23            30.55                       Long
+## 2                   11             2.25                      Short
+## 3                   31            10.15                       Long
+## 4                   19            26.33                       Long
+## 5                    7            30.48                       Long
+## 6                   16            34.05                       Long
+##   Traffic_Level Number_of_Signals Average_Speed_kmph Delivery_Priority
+## 1      Moderate                15               28.7            Normal
+## 2      Moderate                17               23.3            Normal
+## 3      Moderate                 8               28.9            Normal
+## 4           Low                 9               41.4            Normal
+## 5      Moderate                 8               31.7            Normal
+## 6      Moderate                16               24.2            Normal
+##   Time_taken_min
+## 1             91
+## 2             21
+## 3             52
+## 4             59
+## 5             75
+## 6            105</code></pre>
+<p>Los nombres de columna y los valores están correctamente alineados;
+no hay evidencia de que el separador esté mal configurado ni de que el
+CSV se haya cargado como una sola columna.</p>
+</div>
+<div id="conversión-de-variables-categóricas-a-factor" class="section level1" number="20">
+<h1><span class="header-section-number">20</span> Conversión de
+variables categóricas a factor</h1>
+<p>En R, <code>factor()</code> marca una columna como categórica en
+lugar de texto libre y define qué categorías (niveles) existen. Esto
+importa porque muchas funciones de modelado (regresión, ANOVA, análisis
+multidimensional) y de graficación (<code>boxplot()</code>,
+<code>ggplot()</code>) tratan distinto una variable <code>factor</code>
+que una <code>chr</code>, y porque permite fijar un orden lógico entre
+categorías cuando este existe (por ejemplo, <code>Traffic_Level</code>:
+Low &lt; Moderate &lt; High &lt; Severe), algo que un <code>chr</code>
+no permite. Por eso las variables categóricas identificadas como
+<code>chr</code> en <code>str()</code> se convierten aquí a
+<code>factor</code>.</p>
+<pre class="r"><code>food_delivery$Traffic_Level &lt;- factor(food_delivery$Traffic_Level)
+food_delivery$Restaurant_Load &lt;- factor(food_delivery$Restaurant_Load)
+food_delivery$Delivery_Priority &lt;- factor(food_delivery$Delivery_Priority)
+food_delivery$Delivery_Distance_Category &lt;- factor(food_delivery$Delivery_Distance_Category)
+food_delivery$Day_of_Week &lt;- factor(food_delivery$Day_of_Week)
+food_delivery$Weather &lt;- factor(food_delivery$Weather)
+food_delivery$Cuisine_Type &lt;- factor(food_delivery$Cuisine_Type)
+food_delivery$Vehicle_Type &lt;- factor(food_delivery$Vehicle_Type)
+food_delivery$Pickup_Zone &lt;- factor(food_delivery$Pickup_Zone)
+food_delivery$Dropoff_Zone &lt;- factor(food_delivery$Dropoff_Zone)
+
+str(food_delivery)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    50000 obs. of  24 variables:
+##  $ Order_ID                  : chr  &quot;ORD000001&quot; &quot;ORD000002&quot; &quot;ORD000003&quot; &quot;ORD000004&quot; ...
+##  $ Order_Date                : chr  &quot;2025-10-28&quot; &quot;2025-09-26&quot; &quot;2025-01-26&quot; &quot;2025-11-19&quot; ...
+##  $ Order_Hour                : int  8 12 18 12 18 18 12 22 8 16 ...
+##  $ Day_of_Week               : Factor w/ 7 levels &quot;Friday&quot;,&quot;Monday&quot;,..: 6 1 4 7 2 7 6 1 5 1 ...
+##  $ Is_Weekend                : int  0 0 1 0 0 0 0 0 0 0 ...
+##  $ Is_Festival               : int  0 0 0 0 0 0 0 0 1 0 ...
+##  $ Weather                   : Factor w/ 5 levels &quot;Clear&quot;,&quot;Cloudy&quot;,..: 1 4 1 2 4 2 4 2 2 1 ...
+##  $ Pickup_Zone               : Factor w/ 5 levels &quot;CBD&quot;,&quot;Commercial&quot;,..: 1 1 4 4 3 1 2 1 1 2 ...
+##  $ Dropoff_Zone              : Factor w/ 5 levels &quot;CBD&quot;,&quot;Commercial&quot;,..: 2 1 4 3 4 5 2 4 4 4 ...
+##  $ Vehicle_Type              : Factor w/ 4 levels &quot;Bicycle&quot;,&quot;Bike&quot;,..: 4 4 4 2 2 3 1 3 2 2 ...
+##  $ Rider_Experience_Years    : num  3.1 1.8 3.8 1.7 12.4 1.6 2.2 0.7 10.2 9.3 ...
+##  $ Rider_Rating              : num  3.8 3.6 3.9 3.9 4.4 3.5 4 3.7 4.4 4.3 ...
+##  $ Restaurant_Rating         : num  3.8 3.9 4 4.6 4 4.9 4.3 3.6 3.6 3.4 ...
+##  $ Cuisine_Type              : Factor w/ 9 levels &quot;Bakery&quot;,&quot;Biryani&quot;,..: 8 6 2 3 6 9 1 3 7 6 ...
+##  $ Order_Items               : int  1 3 1 3 1 1 5 3 3 6 ...
+##  $ Restaurant_Load           : Factor w/ 3 levels &quot;High&quot;,&quot;Low&quot;,&quot;Medium&quot;: 3 3 2 3 3 2 2 1 3 2 ...
+##  $ Preparation_Time_Min      : int  23 11 31 19 7 16 13 23 33 18 ...
+##  $ Road_Distance_km          : num  30.55 2.25 10.15 26.33 30.48 ...
+##  $ Delivery_Distance_Category: Factor w/ 3 levels &quot;Long&quot;,&quot;Medium&quot;,..: 1 3 1 1 1 1 1 2 1 1 ...
+##  $ Traffic_Level             : Factor w/ 4 levels &quot;High&quot;,&quot;Low&quot;,&quot;Moderate&quot;,..: 3 3 3 2 3 3 2 2 1 2 ...
+##  $ Number_of_Signals         : int  15 17 8 9 8 16 10 14 17 10 ...
+##  $ Average_Speed_kmph        : num  28.7 23.3 28.9 41.4 31.7 24.2 13.4 29.3 29.2 45.9 ...
+##  $ Delivery_Priority         : Factor w/ 3 levels &quot;Normal&quot;,&quot;Priority&quot;,..: 1 1 1 1 1 1 1 1 1 1 ...
+##  $ Time_taken_min            : int  91 21 52 59 75 105 180 37 110 69 ...</code></pre>
+<p>Nota: <code>Order_Date</code> sigue como <code>chr</code> en esta
+fase. Si más adelante se necesita trabajar con fechas (extraer mes o
+día), se puede convertir con
+<code>as.Date(food_delivery$Order_Date)</code>, pero eso corresponde a
+una etapa posterior de limpieza/transformación, no a esta fase de
+importación.</p>
 </div>
 
 
